@@ -1,5 +1,7 @@
 class Cryptographer
 
+attr_reader :sliced_indices, :rotated_indices
+
   def cipher
     ('a'..'z').to_a + ('0'..'9').to_a + [' ', '.', ',']
   end
@@ -97,11 +99,10 @@ class Cryptographer
   end
 
   def crack(message, date = @date)
-    rotated_indices = [37, 37, 4, 13, 3, 37, 37]
     
     #determine what key is
       #calculate offsets from message date and index values of ..end..
-    decrypt(message, @cracked_key)
+    # decrypt(message, @cracked_key)
   end
 
 end

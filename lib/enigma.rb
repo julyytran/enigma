@@ -2,12 +2,11 @@ require_relative 'cryptographer'
 
 class Enigma < Cryptographer
 
-  attr_reader :key,
-              :a_key_rotation, :b_key_rotation, :c_key_rotation, :d_key_rotation,
+  attr_reader :a_key_rotation, :b_key_rotation, :c_key_rotation, :d_key_rotation,
               :a_date_offset, :b_date_offset, :c_date_offset, :d_date_offset,
               :a_rotation, :b_rotation, :c_rotation, :d_rotation
 
-  attr_accessor :date
+  attr_accessor :date, :key
 
   def initialize(key = Random.rand(0..99999).to_s, date = Time.now.strftime("%d%m%y").to_i)
     @key = "%05d" % key

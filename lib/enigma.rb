@@ -37,3 +37,6 @@ class Enigma < Cryptographer
   end
 
 end
+
+e = Enigma.new
+e.crack("z77jq3koqx")

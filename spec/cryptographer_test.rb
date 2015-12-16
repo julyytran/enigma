@@ -76,23 +76,14 @@ class CryptographerTest < Minitest::Test
     assert_equal "july.", e.decrypt("35uks", 14859)
   end
 
-  def test_crack_key
-    skip
-    e = Enigma.new
-    e.crack("1gi9px8p528j")
-    assert_equal "12345", e.key
-  end
-
   def test_crack_message_end
-    skip
     e = Enigma.new("12345")
     assert_equal "..end..", e.crack("qxbyvx8")
   end
 
   def test_crack_entire_message
-    skip
     e = Enigma.new("12345")
-    assert_equal "july ..end..", e.crack("1gi9px8p528j")
+    assert_equal "hi ..end..", e.crack("z77jq3koqx")
   end
 
 end

@@ -2,10 +2,7 @@ require_relative 'cryptographer'
 
 class Enigma < Cryptographer
 
-  attr_reader :a_key_rotation, :b_key_rotation, :c_key_rotation, :d_key_rotation,
-              :a_date_offset, :b_date_offset, :c_date_offset, :d_date_offset,
-              :a_rotation, :b_rotation, :c_rotation, :d_rotation
-
+  attr_reader :key_rotation, :date_offset, :total_rotation
   attr_accessor :date, :key
 
   def initialize(key = Random.rand(0..99999).to_s, date = Time.now.strftime("%d%m%y").to_i)
@@ -13,30 +10,32 @@ class Enigma < Cryptographer
     @date = date
   end
 
-  def key_rotation
-    @a_key_rotation = @key[0..1].to_i
-    @b_key_rotation = @key[1..2].to_i
-    @c_key_rotation = @key[2..3].to_i
-    @d_key_rotation = @key[3..4].to_i
+  def create_key_rotation
+    @key_rotation = [@key[0..1].to_i, @key[1..2].to_i, @key[2..3].to_i, @key[3..4].to_i]
   end
 
-  def date_offset
+  def create_date_offset
     date_squared = @date ** 2
     last_four_digits = date_squared.to_s[-4..-1]
-    @a_date_offset = last_four_digits[-4].to_i
-    @b_date_offset = last_four_digits[-3].to_i
-    @c_date_offset = last_four_digits[-2].to_i
-    @d_date_offset = last_four_digits[-1].to_i
+    @date_offset = [last_four_digits[-4].to_i, last_four_digits[-3].to_i, last_four_digits[-2].to_i, last_four_digits[-1].to_i]
   end
 
-  def total_rotation
-    @a_rotation = @a_key_rotation + @a_date_offset
-    @b_rotation = @b_key_rotation + @b_date_offset
-    @c_rotation = @c_key_rotation + @c_date_offset
-    @d_rotation = @d_key_rotation + @d_date_offset
+  def create_total_rotation
+    create_key_rotation
+    create_date_offset
+    @total_rotation = @key_rotation.zip(@date_offset).map { |x, y| x + y}
+  end
+
+  def cipher
+    ('a'..'z').to_a + ('0'..'9').to_a +
+    [' ', '.', ','] + ('A'..'Z').to_a +
+    ['!', '@', '#', '$', '%', '^', '&', '*', '(',
+    ')', '[', ']', '<', '>', ';', ':', '/', '?', "'\'", '|']
+
+  end
+
+  def upper_bound
+    cipher.length
   end
 
 end
-
-e = Enigma.new
-e.crack("z77jq3koqx")

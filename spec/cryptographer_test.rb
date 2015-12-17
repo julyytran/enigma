@@ -39,43 +39,53 @@ class CryptographerTest < Minitest::Test
   end
 
   def test_encrypt_for_exactly_four_letters
-    e = Enigma.new("14859", 121215)
-    assert_equal "3^nd", e.encrypt("july")
+    e = Enigma.new("12345", 121215)
+    assert_equal "1GI)", e.encrypt("july")
   end
 
   def test_encrypt_for_less_than_four_letters
-    e = Enigma.new("14859", 121215)
-    assert_equal "3^n", e.encrypt("jul")
+    e = Enigma.new("12345", 121215)
+    assert_equal "1GI", e.encrypt("jul")
   end
 
   def test_encrypt_for_more_than_four_letters
-    e = Enigma.new("14859", 121215)
-    assert_equal "3^ndS", e.encrypt("july.")
+    e = Enigma.new("12345", 121215)
+    assert_equal "1GI)Q", e.encrypt("july.")
   end
 
-  def test_encrypt_capitals_and_symbols
+  def test_encrypt_capitals
     e = Enigma.new("12345")
-    assert_equal "adep&fq", e.encrypt("#YOLO!!")
+    assert_equal "ZZ?fP[fqP>dl", e.encrypt("HAHA LOL OMG")
+  end
+
+  def test_encrypt_symbols
+    e = Enigma.new("12345")
+    assert_equal "qgs7ckw.go0Ck", e.encrypt("?!@#$%^&*()[]")
   end
 
   def test_decrypt_for_exactly_four_letters
-    e = Enigma.new("14859", 121215)
-    assert_equal "july", e.decrypt("3^nd", 14859)
+    e = Enigma.new("12345", 121215)
+    assert_equal "july", e.decrypt("1GI)", 12345)
   end
 
   def test_decrypt_for_less_than_four_letters
-    e = Enigma.new("14859", 121215)
-    assert_equal "jul", e.decrypt("3^n", 14859)
+    e = Enigma.new("12345", 121215)
+    assert_equal "jul", e.decrypt("1GI", 12345)
   end
 
   def test_decrypt_for_more_than_four_letters
-    e = Enigma.new("14859", 121215)
-    assert_equal "july.", e.decrypt("3^ndS", 14859)
+    e = Enigma.new("12345", 121215)
+    assert_equal "july.", e.decrypt("1GI)Q", 12345)
   end
 
-  def test_decrypt_capitals_and_symbols
+  def test_decrypt_capitals
     e = Enigma.new("12345")
-    assert_equal "#YOLO!!", e.decrypt("adep&fq", 12345)
+    assert_equal "HAHA LOL OMG", e.decrypt("ZZ?fP[fqP>dl", 12345)
+  end
+
+  def test_decrypt_symbols
+    e = Enigma.new("12345")
+    assert_equal "?!@#$%^&*()[]", e.decrypt("qgs7ckw.go0Ck", 12345)
   end
 
   def test_crack_message_end
@@ -85,12 +95,17 @@ class CryptographerTest < Minitest::Test
 
   def test_crack_entire_message
     e = Enigma.new("12345")
-    assert_equal "hi ..end..", e.crack("z7*cQ3KOQX")
+    assert_equal "hi ..end..", e.crack("z7*dQ3KOQX")
   end
 
-  def test_crack_capitals_and_symbols
+  def test_crack_capitals
     e = Enigma.new("12345")
-    assert_equal "#YOLO!!..end..", e.crack("adep&fqcQ3KOQX")
+    assert_equal "HAHA LOL OMG ..end..", e.crack("ZZ?fP[fqP>dlPX(P52(d")
+  end
+
+  def test_crack_symbols
+    e = Enigma.new("12345")
+    assert_equal "?!@#$%^&*()[] ..end..", e.crack("qgs7ckw.go0CkW(dw,AdQ")
   end
 
 end

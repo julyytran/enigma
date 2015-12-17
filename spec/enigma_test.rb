@@ -43,12 +43,12 @@ class EnigmaTest < Minitest::Test
       "1", "2", "3", "4", "5", "6", "7", "8", "9", " ", ".", ",", "A", "B", "C",
       "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R",
       "S", "T", "U", "V", "W", "X", "Y", "Z", "!", "@", "#", "$", "%", "^", "&",
-      "*", "(", ")", "[", "]", "<", ">", ";", ":", "/", "?", "''", "|"], e.cipher
+      "*", "(", ")", "[", "]", "<", ">", ";", ":", "/", "?", "|"], e.cipher
   end
 
   def test_upper_bound_of_cipher
     e = Enigma.new(12345, 121215)
-    assert_equal 85, e.cipher.length
+    assert_equal 84, e.cipher.length
   end
 
 end

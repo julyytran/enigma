@@ -3,8 +3,8 @@ class Cryptographer
 attr_reader :sliced_indices, :rotated_indices
 
   def index_message(message)
-    chars = message.split("")
-    @indices = chars.map do |char|
+    @chars = message.split("")
+    @indices = @chars.map do |char|
       cipher.index(char)
     end
   end
